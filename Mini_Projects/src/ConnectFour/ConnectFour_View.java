@@ -92,4 +92,7 @@ public class ConnectFour_View {
 	public List<Rectangle> getOverlay(){
 		return overlay;
 	}
+	
+	// TODO Create a method to place disc in playing board visually with animation
+	
 }

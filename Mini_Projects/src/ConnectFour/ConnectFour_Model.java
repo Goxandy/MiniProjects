@@ -2,25 +2,20 @@ package ConnectFour;
 
 
 public class ConnectFour_Model {
-	protected static final int COLUMNS = 7;
-	protected static final int ROWS = 6;
+	protected static final int COLUMNS = 7; //the columns for the playing board
+	protected static final int ROWS = 6; // the rows for the playing board
 	
-	private final int[][] board; // An array to place the discs in the right position
-	private boolean redMove = true;
+	
 	
 	public ConnectFour_Model() {
-		board = new int[COLUMNS][ROWS];
+		
 	}
 	
 	
 	
-	public boolean isRedMove() {
-		return redMove;
-	}
+	// TODO: Create method to place disc in array logically
 	
-	// probably not needed
-	public void setRedMove(boolean redMove) {
-		this.redMove = redMove;
-	}
-
+	// TODO: Create method to determine winner
+	
+	// Inspiration from TicTacToe - it's pretty similar
 }

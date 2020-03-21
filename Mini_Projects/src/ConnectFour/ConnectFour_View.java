@@ -3,6 +3,8 @@ package ConnectFour;
 import java.util.ArrayList;
 import java.util.List;
 
+import ConnectFour.ConnectFour_Model.Moves;
+
 import javafx.scene.Scene;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
@@ -21,6 +23,8 @@ public class ConnectFour_View {
 	Shape shape;
 	private List<Rectangle> overlay;
 	
+	private Pane discs;
+	
 	
 	public ConnectFour_View (Stage stage, ConnectFour_Model model) {
 		this.stage = stage;
@@ -28,6 +32,8 @@ public class ConnectFour_View {
 		
 		Pane root = new Pane();
 		
+		discs = new Pane();
+		root.getChildren().addAll(discs);
 		shape = makeGrid();
 		root.getChildren().add(shape);
 		root.getChildren().addAll(makeOverlay());
@@ -91,6 +97,39 @@ public class ConnectFour_View {
 	
 	public List<Rectangle> getOverlay(){
 		return overlay;
+	}
+	
+	public void placeDisc() {
+		boolean color;
+		Disc disc;
+		int row = model.currentRow;
+		int column = model.currentCol;
+		
+			if (model.discBoard[model.currentCol][model.currentRow] == Moves.R) {
+				disc = new Disc(true);
+			} else {
+				disc = new Disc(false);
+			}
+			discs.getChildren().add(disc);
+			disc.setTranslateX(model.currentCol * (TILE_SIZE + 5) + TILE_SIZE / 4);
+			disc.setTranslateY(model.currentRow * (TILE_SIZE + 5) + TILE_SIZE / 4);
+			
+			
+			
+			// TODO Create Animation => .setToY for setTranslateY
+		}
+	
+	private class Disc extends Circle {
+		private boolean color;
+		private static final int TILE_SIZE = 80;
+		
+		public Disc(boolean red) {
+			super(TILE_SIZE / 2, (red ? Color.RED : Color.YELLOW));
+			this.color = red;	
+			
+			setCenterX(TILE_SIZE / 2);
+			setCenterY(TILE_SIZE / 2);
+		}
 	}
 	
 	// TODO Create a method to place disc in playing board visually with animation

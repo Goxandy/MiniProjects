@@ -36,36 +36,79 @@ public class ConnectFour_Model {
 		if (checkVertWinner() != null) winner = checkVertWinner();
 		if (checkHorWinner() != null) winner = checkHorWinner();
 		
+		try {
+			if (checkDiagWinnerDown() != null) winner = checkDiagWinnerDown();
+		} catch (Exception e) {
+			// Do nothing when exception is catched
+		}
+		
+		try {
+			if (checkDiagWinnerUp() != null) winner = checkDiagWinnerUp();
+		} catch (Exception e) {
+			// Do nothing when exception is catched
+		}
+		
 	}
 	
 	// Check for horizontal winner - WORKS!!!!!
 	public Moves checkHorWinner() {
 		Moves hWinner = null;
 				
-			for (int y = 0; y < ROWS; y++) {
-				for (int x = 0; x < COLUMNS-3; x++) {
-					if (discBoard[x][y] == discBoard[x+1][y] && discBoard[x][y] == discBoard[x+2][y] &&discBoard[x][y] == discBoard[x+3][y]) {
-						hWinner = discBoard[x][y];
-					}
+		for (int x = 0; x < COLUMNS-3; x++) {
+			if (discBoard[x][currentRow] == discBoard[x+1][currentRow] && discBoard[x][currentRow] == discBoard[x+2][currentRow] && 
+				discBoard[x][currentRow] == discBoard[x+3][currentRow]) {
+					hWinner = discBoard[x][currentRow];
 				}
-			}
+			}	
 		return hWinner;
 	}
 	
-	// Check for vertical Winner - not working :(
+	// Check for vertical Winner - WORKS!!
 	public Moves checkVertWinner() {
 		Moves vertWinner = null;
 		
-			for (int x = 0; x < COLUMNS; x++) {
-				for (int y = 0; y < ROWS - 3; y++) {
-				if (discBoard[x][y] == discBoard[x][y+1] && discBoard[x][y] == discBoard[x][y+2] && discBoard[x][y] == discBoard[x][y+3]) {
-					vertWinner = discBoard[x][y];
-				}
-			}	
+		for (int y = 0; y < ROWS - 3; y++) {
+			if (discBoard[currentCol][y] == discBoard[currentCol][y+1] && discBoard[currentCol][y] == discBoard[currentCol][y+2] && 
+				discBoard[currentCol][y] == discBoard[currentCol][y+3]) {
+					vertWinner = discBoard[currentCol][y];
+			}
 		}
-		return vertWinner;
+	return vertWinner;
 	}
 	
+	
+	// Check for vertical winner from Top to Bottom
+	//Exception because of Array IndexOutOfBound
+	public Moves checkDiagWinnerDown() throws Exception {
+		Moves diagWinnerDown = null;
+		
+		try {
+			if (discBoard[currentCol][currentRow] == discBoard[currentCol+1][currentRow+1] && 
+					discBoard[currentCol][currentRow] == discBoard[currentCol+2][currentRow+2] &&
+					 discBoard[currentCol][currentRow] == discBoard[currentCol+3][currentRow+3]) 
+				diagWinnerDown = discBoard[currentCol][currentRow];
+		} catch (Exception e) {
+			// do nothing when exception
+		}
+		
+		return diagWinnerDown;
+	}
+	
+	// Check for vertical winner from Bottom to top
+	public Moves checkDiagWinnerUp() throws Exception {
+		Moves diagWinnerUp = null;
+		
+		try {
+			if (discBoard[currentCol][currentRow] == discBoard[currentCol-1][currentRow+1] && 
+					discBoard[currentCol][currentRow] == discBoard[currentCol-2][currentRow+2] &&
+					 discBoard[currentCol][currentRow] == discBoard[currentCol-3][currentRow+3]) 
+				diagWinnerUp = discBoard[currentCol][currentRow];
+		} catch (Exception e) {
+			// do nothing when exception
+		}
+		
+		return diagWinnerUp;
+	}
 	
 	public Moves getWinner() {
 		return winner;

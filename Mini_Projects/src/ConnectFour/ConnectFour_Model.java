@@ -1,13 +1,11 @@
 package ConnectFour;
 
-import ConnectFour.ConnectFour_Model.Moves;
-
 public class ConnectFour_Model {
 	protected static final int COLUMNS = 7;
 	protected static final int ROWS = 6;
 	
-	public enum Moves{R, Y};
-	private Moves nextMove = Moves.R;
+	public enum Moves{Red, Yellow};
+	private Moves nextMove = Moves.Red;
 	private Moves winner = null;
 	
 	protected Moves[][] discBoard = new Moves[COLUMNS][ROWS];
@@ -31,7 +29,7 @@ public class ConnectFour_Model {
 		currentRow = row;
 		
 		discBoard[currentCol][currentRow] = nextMove;
-		nextMove = (nextMove == Moves.R  ? Moves.Y : Moves.R);	
+		nextMove = (nextMove == Moves.Red  ? Moves.Yellow : Moves.Red);
 		
 		if (checkVertWinner() != null) winner = checkVertWinner();
 		if (checkHorWinner() != null) winner = checkHorWinner();
@@ -48,6 +46,13 @@ public class ConnectFour_Model {
 			// Do nothing when exception is catched
 		}
 		
+	}
+
+	public Moves[][] resetDiscBoard(){
+		discBoard = new Moves[COLUMNS][ROWS];
+		winner = null;
+		nextMove = Moves.Red;
+		return discBoard;
 	}
 	
 	// Check for horizontal winner - WORKS!!!!!
@@ -112,5 +117,10 @@ public class ConnectFour_Model {
 	
 	public Moves getWinner() {
 		return winner;
+	}
+
+	// Needed to set the winner in gameOver() to null
+	public void setWinner(Moves winner){
+		this.winner = winner;
 	}
 }

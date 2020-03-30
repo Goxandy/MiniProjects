@@ -3,7 +3,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class ConnectFour extends Application {
-	private  ConnectFour_Model model;
+	private ConnectFour_Model model;
 	private  ConnectFour_View view;
 	private  ConnectFour_Controller controller;
 	

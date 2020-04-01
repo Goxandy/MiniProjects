@@ -22,30 +22,14 @@ public class ConnectFour_Model {
 			if (discBoard[col][row] == null) break;
 				row--;	
 		} while (row >= 0);
-		
 		if (row < 0) return;
 		
 		currentCol = col;
 		currentRow = row;
-		
 		discBoard[currentCol][currentRow] = nextMove;
 		nextMove = (nextMove == Moves.Red  ? Moves.Yellow : Moves.Red);
 		
-		if (checkVertWinner() != null) winner = checkVertWinner();
-		if (checkHorWinner() != null) winner = checkHorWinner();
-		
-		try {
-			if (checkDiagWinnerDown() != null) winner = checkDiagWinnerDown();
-		} catch (Exception e) {
-			// Do nothing when exception is catched
-		}
-		
-		try {
-			if (checkDiagWinnerUp() != null) winner = checkDiagWinnerUp();
-		} catch (Exception e) {
-			// Do nothing when exception is catched
-		}
-		
+		checkWinner();
 	}
 
 	public Moves[][] resetDiscBoard(){
@@ -54,9 +38,16 @@ public class ConnectFour_Model {
 		nextMove = Moves.Red;
 		return discBoard;
 	}
+
+	public void checkWinner() {
+		if (checkVertWinner() != null) winner = checkVertWinner();
+		if (checkHorWinner() != null) winner = checkHorWinner();
+		if (checkDiagWinnerDown() != null) winner = checkDiagWinnerDown();
+		if (checkDiagWinnerUp() != null) winner = checkDiagWinnerUp();
+	}
 	
 	// Check for horizontal winner - WORKS!!!!!
-	public Moves checkHorWinner() {
+	private Moves checkHorWinner() {
 		Moves hWinner = null;
 				
 		for (int x = 0; x < COLUMNS-3; x++) {
@@ -69,7 +60,7 @@ public class ConnectFour_Model {
 	}
 	
 	// Check for vertical Winner - WORKS!!
-	public Moves checkVertWinner() {
+	private Moves checkVertWinner() {
 		Moves vertWinner = null;
 		
 		for (int y = 0; y < ROWS - 3; y++) {
@@ -84,7 +75,7 @@ public class ConnectFour_Model {
 	
 	// Check for vertical winner from Top to Bottom
 	//Exception because of Array IndexOutOfBound
-	public Moves checkDiagWinnerDown() throws Exception {
+	private Moves checkDiagWinnerDown() {
 		Moves diagWinnerDown = null;
 		
 		try {
@@ -100,7 +91,7 @@ public class ConnectFour_Model {
 	}
 	
 	// Check for vertical winner from Bottom to top
-	public Moves checkDiagWinnerUp() throws Exception {
+	private Moves checkDiagWinnerUp() {
 		Moves diagWinnerUp = null;
 		
 		try {

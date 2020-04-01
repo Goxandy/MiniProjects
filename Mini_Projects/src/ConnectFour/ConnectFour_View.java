@@ -2,7 +2,7 @@ package ConnectFour;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.locks.Lock;
+
 
 import ConnectFour.ConnectFour_Model.Moves;
 
@@ -24,38 +24,32 @@ import javafx.scene.control.Label;
 
 
 public class ConnectFour_View {
+	// General objects needed by all scenes
 	private final ConnectFour_Model model;
-	private final Stage stage;
-	private Pane root;
+	protected final Stage stage;
 
+	// Elements to display the playing board (inGameScene)
 	Scene inGameScene;
 	private static final int TILE_SIZE = 80;
 	Shape shape;
 	private List<Rectangle> overlay;
 
+	// Elements to display the game flow (inGameScene)
 	protected Disc disc;
-	private Pane discPane;
-	private ArrayList<Disc> discsToRemove = new ArrayList<>();
+	protected Pane discPane;
+	protected ArrayList<Disc> discsToRemove = new ArrayList<>();
+	TranslateTransition animation = new TranslateTransition();
 
-	Scene sceneGO;
-	protected Button exit;
+	// Elements to display the GameOver scene
+	protected Button exit = new Button("Exit");
+	protected Button playAgain = new Button("Play Again");
 	
 	
 	public ConnectFour_View (Stage stage, ConnectFour_Model model) {
 		this.stage = stage;
 		this.model = model;
-		
-		root = new Pane();
-		
-		discPane = new Pane();
-		root.getChildren().addAll(discPane);
-		shape = makeGrid();
-		root.getChildren().add(shape);
-		root.getChildren().addAll(makeOverlay());
-		
-		inGameScene= new Scene(root);
-		inGameScene.getStylesheets().add(getClass().getResource("ConnectFour.css").toExternalForm());
 
+		inGameScene = createGameScene();
 		stage.setScene(inGameScene);
 		stage.setTitle("Connect Four");
 	}
@@ -66,6 +60,30 @@ public class ConnectFour_View {
 	
 	public void stop() {
 		stage.hide();
+	}
+
+	public void changeScene(Scene sceneToGo) {
+		stage.setScene(sceneToGo);
+	}
+
+	public List<Rectangle> getOverlay(){
+		return overlay;
+	}
+
+	public Disc getDisc() {
+		return disc;
+	}
+
+	private Scene createGameScene(){
+		Pane root = new Pane();
+		discPane = new Pane();
+		root.getChildren().addAll(discPane);
+		shape = makeGrid();
+		root.getChildren().add(shape);
+		root.getChildren().addAll(makeOverlay());
+		Scene scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("ConnectFour.css").toExternalForm());
+		return scene;
 	}
 	
 	// Create the playing board - the circles are not objects so we need an overlay
@@ -101,7 +119,7 @@ public class ConnectFour_View {
 	// create an overlay to highlight the desired column
 	private List<Rectangle> makeOverlay() {
 		overlay = new ArrayList();
-		
+
 			for (int x = 0; x < model.COLUMNS; x++) {
 				Rectangle rect = new Rectangle(TILE_SIZE, (model.ROWS + 1) * TILE_SIZE);
 				rect.setTranslateX(x * (TILE_SIZE + 5) + TILE_SIZE / 4);
@@ -112,114 +130,67 @@ public class ConnectFour_View {
 		return overlay;
 	}
 	
-	public List<Rectangle> getOverlay(){
-		return overlay;
-	}
+
 	
 	public void placeDisc() {
-		boolean color;
-
 		int row = model.currentRow;
 		int column = model.currentCol;
 		
-			if (model.discBoard[model.currentCol][model.currentRow] == Moves.Red) {
+			if (model.discBoard[column][row] == Moves.Red) {
 				this.disc = new Disc(true);
 			} else {
 				disc = new Disc(false);
 			}
 		discPane.getChildren().add(disc);
-		disc.setTranslateX(model.currentCol * (TILE_SIZE + 5) + TILE_SIZE / 4);
+		disc.setTranslateX(column * (TILE_SIZE + 5) + TILE_SIZE / 4);
 		discsToRemove.add(disc);
 
 
-		TranslateTransition animation = new TranslateTransition(Duration.seconds(0.5), disc);
-		animation.setToY(model.currentRow * (TILE_SIZE + 5) + TILE_SIZE / 4);
+		animation.setDuration(Duration.seconds(0.5));
+		animation.setNode(disc);
+		animation.setToY(row * (TILE_SIZE + 5) + TILE_SIZE / 4);
 		animation.play();
-
-		final Object lock = new Object();
-
-		animation.setOnFinished( e -> {
-			if (model.getWinner() != null){
-				try {
-					// make the Game Over scene wait to show up to avoid rushing to the endScene
-					synchronized (lock) {
-						lock.wait(1500);
-					}
-				} catch (InterruptedException ex) {
-					ex.printStackTrace();
-				}
-				gameOver();
-			}
-		});
 	}
 
 	// create what happens when game is over
-	public void gameOver(){
+	public Scene createGameOverScene(){
 
 		Pane rootGameOver = new Pane();
-		sceneGO = new Scene(rootGameOver, 800, 650);
-		sceneGO.getStylesheets().add(getClass().getResource("ConnectFour.css").toExternalForm());
+		Scene scene  = new Scene(rootGameOver, 800, 650);
 
-
-		Background background = new Background(new BackgroundFill(Color.rgb(13, 22, 200), null, null));
-		// rootGameOver.setBackground(background);
 
 		Label gameOverText = new Label("What a Game!! Player " + model.getWinner() + " is the winner");
 		gameOverText.setTranslateX(150);
 		gameOverText.setTranslateY(80);
 
-		Button playAgain = new Button("Play Again");
 		playAgain.setTranslateX(150);
 		playAgain.setTranslateY(500);
-		
-		
-		// Does not work - changes to scene and resets the view but not the logic
-		playAgain.setOnAction( e -> {
-			discPane.getChildren().removeAll(discsToRemove);
-			model.resetDiscBoard();
-			stage.setScene(inGameScene);
-		});
 
-		exit = new Button("Exit");
 		exit.setTranslateX(470);
 		exit.setTranslateY(500);
 		exit.setMinWidth(175);
 
-		// Works! TODO Place setOnAction in Controller
-		exit.setOnAction( e -> {
-			stop();
-		});
-
+		ImageView iv = new ImageView();
+		iv.setPreserveRatio(true);
+		iv.setFitWidth(400);
+		iv.setTranslateX(200);
+		iv.setTranslateY(210);
 
 		rootGameOver.getChildren().add(exit);
 		rootGameOver.getChildren().add(gameOverText);
 		rootGameOver.getChildren().add(playAgain);
+		rootGameOver.getChildren().add(iv);
 
 		try {
 			Image gameOver = new Image("file:gameOver.png");
-			ImageView iv = new ImageView();
 			iv.setImage(gameOver);
-			iv.setPreserveRatio(true);
-			iv.setFitWidth(400);
-			iv.setTranslateX(200);
-			iv.setTranslateY(210);
-
-			rootGameOver.getChildren().add(iv);
-			stage.setScene(sceneGO);
-
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		stage.setTitle("Game Over");
-
+		scene.getStylesheets().add(getClass().getResource("ConnectFour.css").toExternalForm());
+		return scene;
 	}
 
-	public Disc getDisc() {
-		return disc;
-	}
-	
 	private class Disc extends Circle {
 		private boolean color;
 		private static final int TILE_SIZE = 80;

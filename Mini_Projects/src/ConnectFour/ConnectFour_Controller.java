@@ -22,12 +22,36 @@ public class ConnectFour_Controller {
 		for (int i = 0; i < model.COLUMNS; i++) {
 			int column = i;
 
-
 			view.getOverlay().get(column).setOnMouseClicked(e -> {
 				model.makeMove(column);
 				view.placeDisc();
 			});
 		}
+
+		view.animation.setOnFinished( e -> {
+			final Object lock = new Object();
+			if (model.getWinner() != null){
+				try {
+					// make the Game Over scene wait to show up to avoid rushing to the endScene
+					synchronized (lock) {
+						lock.wait(1500);
+					}
+				} catch (InterruptedException ex) {
+					ex.printStackTrace();
+				}
+				view.changeScene(view.createGameOverScene());
+			}
+		});
+
+		view.playAgain.setOnAction(e -> {
+			view.discPane.getChildren().removeAll(view.discsToRemove);
+			model.resetDiscBoard();
+			view.changeScene(view.inGameScene);
+		});
+
+		view.exit.setOnAction(e -> {
+			view.stop();
+		});
 
 	}
 }

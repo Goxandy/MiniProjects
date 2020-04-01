@@ -21,7 +21,31 @@ import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.control.Label;
+/**
+ * 
+ * @author ConnectFour:
 
+
+TODO:
+
+PreFame-Fenster(Andy):
+Spielername eingeben; Grösse vom Spielboard auswählen; Zusatzmodus (5er System);
+Tetris-Version
+
+
+
+
+InGame-fenster(Levin):
+
+-MenuBar (Sprache wechseln; Hintergrundfarbe wechseln; Spielregeln anzeigen)
+
+
+EndGame-Fenster(Levin):
+
+-Zeitaufwand anzeigen (Score)
+
+ *
+ */
 
 public class ConnectFour_View {
 	// General objects needed by all scenes
@@ -146,7 +170,7 @@ public class ConnectFour_View {
 		discsToRemove.add(disc);
 
 
-		animation.setDuration(Duration.seconds(0.5));
+		animation.setDuration(Duration.seconds(0.3));
 		animation.setNode(disc);
 		animation.setToY(row * (TILE_SIZE + 5) + TILE_SIZE / 4);
 		animation.play();

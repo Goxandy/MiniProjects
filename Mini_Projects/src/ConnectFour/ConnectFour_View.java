@@ -9,6 +9,8 @@ import ConnectFour.ConnectFour_Model.Moves;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Tooltip;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
@@ -65,16 +67,23 @@ public class ConnectFour_View {
 	TranslateTransition animation = new TranslateTransition();
 
 	// Elements to display the GameOver scene
+	protected Scene gameOverScene;
 	protected Button exit = new Button("Exit");
 	protected Button playAgain = new Button("Play Again");
-	
+
+	// Elements to control start scene
+	protected Button startBtn = new Button("Start Game");
+	protected Scene startScene;
+	protected Label lblSize = new Label("Choose the size of the playing board");
+	protected ChoiceBox size = new ChoiceBox();
 	
 	public ConnectFour_View (Stage stage, ConnectFour_Model model) {
 		this.stage = stage;
 		this.model = model;
 
 		inGameScene = createGameScene();
-		stage.setScene(inGameScene);
+		startScene = createStartScene();
+		stage.setScene(startScene);
 		stage.setTitle("Connect Four");
 	}
 	
@@ -90,12 +99,44 @@ public class ConnectFour_View {
 		stage.setScene(sceneToGo);
 	}
 
+	public void updateScene() {
+		startScene = createStartScene();
+		inGameScene = createGameScene();
+		gameOverScene = createGameOverScene();
+	}
+
 	public List<Rectangle> getOverlay(){
 		return overlay;
 	}
 
 	public Disc getDisc() {
 		return disc;
+	}
+
+	private Scene createStartScene() {
+		Pane root = new Pane();
+		startBtn.setTranslateX(470);
+		startBtn.setTranslateY(500);
+
+		lblSize.setTranslateX(50);
+		lblSize.setTranslateY(200);
+
+		size.setTranslateX(500);
+		size.setTranslateY(200);
+		size.getItems().add("7x6");
+		size.getItems().add("5x4");
+		size.getItems().add("6x5");
+		size.getItems().add("8x7");
+		size.getItems().add("9x7");
+		size.getItems().add("10x7");
+		size.getItems().add("8x8");
+		size.setTooltip(new Tooltip("Standard Mode is 7x6 (column x row)"));
+
+		root.getChildren().addAll(startBtn, lblSize, size);
+
+		Scene scene = new Scene(root, 800, 650);
+		scene.getStylesheets().add(getClass().getResource("ConnectFour.css").toExternalForm());
+		return scene;
 	}
 
 	private Scene createGameScene(){

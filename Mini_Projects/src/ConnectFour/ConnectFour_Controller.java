@@ -11,6 +11,26 @@ public class ConnectFour_Controller {
 		this.model = model;
 		this.view = view;
 
+		view.startBtn.setOnAction( e -> {
+			if (view.size.getValue() != null) model.setBoardSize((String) view.size.getValue());
+			view.updateScene();
+			view.changeScene(view.inGameScene);
+			handleGameAction();
+		});
+
+		view.playAgain.setOnAction(e -> {
+			view.discPane.getChildren().removeAll(view.discsToRemove);
+			model.resetDiscBoard();
+			view.changeScene(view.inGameScene);
+		});
+
+		view.exit.setOnAction(e -> {
+			view.stop();
+		});
+
+	}
+
+	private void handleGameAction(){
 		// Display the overlay so the user know at which column he's aiming at
 		for (Rectangle r : view.getOverlay()) {
 			r.setOnMouseEntered(e -> r.setFill(Color.rgb(200, 200, 50, 0.3)));
@@ -42,16 +62,5 @@ public class ConnectFour_Controller {
 				view.changeScene(view.createGameOverScene());
 			}
 		});
-
-		view.playAgain.setOnAction(e -> {
-			view.discPane.getChildren().removeAll(view.discsToRemove);
-			model.resetDiscBoard();
-			view.changeScene(view.inGameScene);
-		});
-
-		view.exit.setOnAction(e -> {
-			view.stop();
-		});
-
 	}
 }

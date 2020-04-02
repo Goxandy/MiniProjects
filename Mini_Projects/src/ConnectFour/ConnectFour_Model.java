@@ -1,8 +1,8 @@
 package ConnectFour;
 
 public class ConnectFour_Model {
-	protected static final int COLUMNS = 7;
-	protected static final int ROWS = 6;
+	protected static int COLUMNS = 7;
+	protected static int ROWS = 6;
 	
 	public enum Moves{Red, Yellow};
 	private Moves nextMove = Moves.Red;
@@ -37,6 +37,15 @@ public class ConnectFour_Model {
 		winner = null;
 		nextMove = Moves.Red;
 		return discBoard;
+	}
+
+	public void setBoardSize(String size){
+		String[] values = size.split("x");
+		int col = Integer.parseInt(values[0]);
+		int row = Integer.parseInt(values[1]);
+		COLUMNS = col;
+		ROWS = row;
+		discBoard = new Moves[COLUMNS][ROWS];
 	}
 
 	public void checkWinner() {

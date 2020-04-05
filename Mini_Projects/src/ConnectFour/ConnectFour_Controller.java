@@ -12,10 +12,16 @@ public class ConnectFour_Controller {
 		this.view = view;
 
 		view.startBtn.setOnAction( e -> {
-			if (view.size.getValue() != null) model.setBoardSize((String) view.size.getValue());
+			String mode = (String) view.mode.getValue();
+			model.setMode(mode);
+			if (view.boardSize.getValue() != null) model.setBoardSize((String) view.boardSize.getValue());
+			if (mode.equals("ConnectFive")) model.setBoardSize("9x6");
 			view.updateScene();
 			view.changeScene(view.inGameScene);
 			handleGameAction();
+			if (mode.equals("ConnectFive")) {
+				view.prepareBoard();
+			}
 		});
 
 		view.playAgain.setOnAction(e -> {

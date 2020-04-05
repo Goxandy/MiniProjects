@@ -7,6 +7,8 @@ import java.util.List;
 import ConnectFour.ConnectFour_Model.Moves;
 
 import javafx.animation.TranslateTransition;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -66,7 +68,7 @@ public class ConnectFour_View {
 	protected ArrayList<Disc> discsToRemove = new ArrayList<>();
 	TranslateTransition animation = new TranslateTransition();
 
-	// Elements to display the GameOver scene
+	// Elements to control the GameOver scene
 	protected Scene gameOverScene;
 	protected Button exit = new Button("Exit");
 	protected Button playAgain = new Button("Play Again");
@@ -74,9 +76,11 @@ public class ConnectFour_View {
 	// Elements to control start scene
 	protected Button startBtn = new Button("Start Game");
 	protected Scene startScene;
-	protected Label lblSize = new Label("Choose the size of the playing board");
-	protected ChoiceBox size = new ChoiceBox();
-	
+	protected Label lblBoardSize = new Label("Choose the size of the playing board");
+	protected ChoiceBox boardSize = new ChoiceBox();
+	protected Label lblMode = new Label("Choose the mode:");
+	protected ChoiceBox mode = new ChoiceBox();
+
 	public ConnectFour_View (Stage stage, ConnectFour_Model model) {
 		this.stage = stage;
 		this.model = model;
@@ -114,28 +118,55 @@ public class ConnectFour_View {
 	}
 
 	private Scene createStartScene() {
-		Pane root = new Pane();
-		startBtn.setTranslateX(470);
-		startBtn.setTranslateY(500);
+		GridPane root = new GridPane();
+		root.setPadding(new Insets(60));
+		root.setVgap(100);
+		root.setAlignment(Pos.CENTER);
 
-		lblSize.setTranslateX(50);
-		lblSize.setTranslateY(200);
+		/** startBtn.setTranslateX(470);
+		 startBtn.setTranslateY(500);
 
-		size.setTranslateX(500);
-		size.setTranslateY(200);
-		size.getItems().add("7x6");
-		size.getItems().add("5x4");
-		size.getItems().add("6x5");
-		size.getItems().add("8x7");
-		size.getItems().add("9x7");
-		size.getItems().add("10x7");
-		size.getItems().add("8x8");
-		size.setTooltip(new Tooltip("Standard Mode is 7x6 (column x row)"));
+		 lblBoardSize.setTranslateX(50);
+		 lblBoardSize.setTranslateY(200);
+		 */
 
-		root.getChildren().addAll(startBtn, lblSize, size);
+		/* boardSize.setTranslateX(500);
+		boardSize.setTranslateY(200);
+		*/
+
+
+		boardSize.getItems().add("7x6");
+		boardSize.getItems().add("5x4");
+		boardSize.getItems().add("6x5");
+		boardSize.getItems().add("8x7");
+		boardSize.getItems().add("9x7");
+		boardSize.getItems().add("10x7");
+		boardSize.getItems().add("8x8");
+		boardSize.setTooltip(new Tooltip("Standard Mode is 7x6 (column x row)"));
+
+		/*
+		lblMode.setTranslateX(50);
+		lblMode.setTranslateY(350);
+		lblMode.setMinWidth(450);
+		*/
+
+		/*
+		mode.setTranslateX(500);
+		mode.setTranslateY(350);
+		 */
+		mode.getItems().add("ConnectFour");
+		mode.getItems().add("ConnectFive");
+		mode.setTooltip(new Tooltip("Standard mode is ConnectFour"));
+
+
+		root.add(lblBoardSize, 0, 0);
+		root.add(lblMode, 0, 1);
+		root.add(boardSize, 1, 0);
+		root.add(mode, 1, 1);
+		root.add(startBtn, 1, 2);
 
 		Scene scene = new Scene(root, 800, 650);
-		scene.getStylesheets().add(getClass().getResource("ConnectFour.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("settings.css").toExternalForm());
 		return scene;
 	}
 
@@ -254,6 +285,48 @@ public class ConnectFour_View {
 		}
 		scene.getStylesheets().add(getClass().getResource("ConnectFour.css").toExternalForm());
 		return scene;
+	}
+
+	public void prepareBoard(){
+		model.makeMove(8);
+		placeDiscNoAnimation();
+		model.makeMove(7);
+		placeDiscNoAnimation();
+		model.makeMove(7);
+		placeDiscNoAnimation();
+		model.makeMove(8);
+		placeDiscNoAnimation();
+		model.makeMove(8);
+		placeDiscNoAnimation();
+		model.makeMove(7);
+		placeDiscNoAnimation();
+		model.makeMove(7);
+		placeDiscNoAnimation();
+		model.makeMove(8);
+		placeDiscNoAnimation();
+		model.makeMove(8);
+		placeDiscNoAnimation();
+		model.makeMove(7);
+		placeDiscNoAnimation();
+		model.makeMove(7);
+		placeDiscNoAnimation();
+		model.makeMove(8);
+		placeDiscNoAnimation();
+	}
+
+	private void placeDiscNoAnimation() {
+		int row = model.currentRow;
+		int column = model.currentCol;
+
+		if (model.discBoard[column][row] == Moves.Red) {
+			this.disc = new Disc(true);
+		} else {
+			disc = new Disc(false);
+		}
+		discPane.getChildren().add(disc);
+		disc.setTranslateX(column * (TILE_SIZE + 5) + TILE_SIZE / 4);
+		disc.setTranslateY(row * (TILE_SIZE + 5) + TILE_SIZE / 4);
+		discsToRemove.add(disc);
 	}
 
 	private class Disc extends Circle {

@@ -1,5 +1,8 @@
 package ConnectFour;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+
 public class ConnectFour_Model {
 	protected static int COLUMNS = 7;
 	protected static int ROWS = 6;
@@ -15,7 +18,7 @@ public class ConnectFour_Model {
 	String mode;
 
 	public ConnectFour_Model() {
-		
+		discBoard = new Moves[COLUMNS][ROWS];
 	}
 	public String getMode(){
 		return mode;
@@ -184,8 +187,59 @@ public class ConnectFour_Model {
 				// do nothing when exception
 			}
 		}
-
 		return diagWinnerUp;
+	}
+
+	// method for showing rules for Connect4 in English
+	public void showRule() {
+
+		Alert rules = new Alert(Alert.AlertType.NONE, "To win Connect Four you must be the first player"
+				+"\n to get four of your colored checkers in a row either horizontally, vertically"
+				+"\n or diagonally. Contents: Connect Four will come with a grid, 2 end supports,"
+				+"\n 21 red checkers and 21 black checkers, and the official Connect Four game rules"
+				+"\n and instructions.");
+
+		rules.setTitle("connect4-Rules");
+		rules.getDialogPane().getButtonTypes().add(ButtonType.OK);
+		rules.showAndWait();
+
+	}
+	// method for showing rules for Connect4 in German
+	public void showRegeln() {
+
+		Alert rules = new Alert(Alert.AlertType.NONE, "Um Connect Four zu gewinnen, müssen Sie der erste"
+				+"\n Spieler sein, der vier Ihrer farbigen Steine in einer Reihe entweder horizontal,"
+				+"\n vertikal oder diagonal erhält. Der Inhalt: Connect Four wird mit einem Gitter,"
+				+"\n 2 Endstützen, 21 roten und 21 schwarzen Steinen und den offiziellen Spielregeln"
+				+"\n und Anweisungen für Connect Four geliefert.\r\n" +
+				"");
+
+		rules.setTitle("connect4-Regeln");
+		rules.getDialogPane().getButtonTypes().add(ButtonType.OK);
+		rules.showAndWait();
+
+	}
+
+	// method for showing help for Connect4 in German
+	public void showHilfe() {
+
+		Alert rules = new Alert(Alert.AlertType.NONE, "Klicke auf die gewünschten Kolonne für den Spielzug!");
+
+		rules.setTitle("connect4-Regeln");
+		rules.getDialogPane().getButtonTypes().add(ButtonType.OK);
+		rules.showAndWait();
+
+	}
+
+	// method for showing help for Connect4 in English
+	public void showHelp() {
+
+		Alert rules = new Alert(Alert.AlertType.NONE, "Click on the desired column for the play!");
+
+		rules.setTitle("connect4-Rules");
+		rules.getDialogPane().getButtonTypes().add(ButtonType.OK);
+		rules.showAndWait();
+
 	}
 	
 

@@ -1,5 +1,7 @@
 package ConnectFour;
 
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -11,10 +13,15 @@ public class ConnectFour_Controller {
 		this.model = model;
 		this.view = view;
 
-		view.startBtn.setOnAction( e -> {
+		view.startBtn.setOnAction(e -> {
 			String mode = (String) view.mode.getValue();
+			if (view.mode.getValue() == null) {
+				model.setMode("ConnectFour");
+				mode = "ConnectFour";
+			}
 			model.setMode(mode);
-			if (view.boardSize.getValue() != null) model.setBoardSize((String) view.boardSize.getValue());
+			if (view.boardSize.getValue() != null)
+				model.setBoardSize((String) view.boardSize.getValue());
 			if (mode.equals("ConnectFive")) model.setBoardSize("9x6");
 			view.updateScene();
 			view.changeScene(view.inGameScene);
@@ -22,6 +29,7 @@ public class ConnectFour_Controller {
 			if (mode.equals("ConnectFive")) {
 				view.prepareBoard();
 			}
+
 		});
 
 		view.playAgain.setOnAction(e -> {
@@ -36,7 +44,7 @@ public class ConnectFour_Controller {
 
 	}
 
-	private void handleGameAction(){
+	private void handleGameAction() {
 		// Display the overlay so the user know at which column he's aiming at
 		for (Rectangle r : view.getOverlay()) {
 			r.setOnMouseEntered(e -> r.setFill(Color.rgb(200, 200, 50, 0.3)));
@@ -54,9 +62,9 @@ public class ConnectFour_Controller {
 			});
 		}
 
-		view.animation.setOnFinished( e -> {
+		view.animation.setOnFinished(e -> {
 			final Object lock = new Object();
-			if (model.getWinner() != null){
+			if (model.getWinner() != null) {
 				try {
 					// make the Game Over scene wait to show up to avoid rushing to the endScene
 					synchronized (lock) {
@@ -68,5 +76,101 @@ public class ConnectFour_Controller {
 				view.changeScene(view.createGameOverScene());
 			}
 		});
+
+		// exit game when playing
+		view.exitGame.setOnAction(e -> {
+			view.stop();
+		});
+
+		// restart game when playing
+		view.restartGame.setOnAction(e -> {
+			view.discPane.getChildren().removeAll(view.discsToRemove);
+			model.resetDiscBoard();
+			view.changeScene(view.inGameScene);
+		});
+
+
+		// TODO (not working efficient !!!!!!!)
+
+		// show the "rules-window" given by the chosen language
+		if (view.germanLanguage.getText() == "Deutsch") {
+			view.connect4Rules.setOnAction(e -> model.showRegeln());
+		}
+
+		if (view.germanLanguage.getText() == "German") {
+			view.connect4Rules.setOnAction(e -> model.showRule());
+		}
+
+
+		// show the "help-window" given by the chosen language
+		if (view.germanLanguage.getText() == "Deutsch") {
+			view.connect4Help.setOnAction(e -> model.showHilfe());
+		}
+
+		if (view.germanLanguage.getText() == "German") {
+			view.connect4Help.setOnAction(e -> model.showHelp());
+
+		}
+
+		// switching background colors
+		view.background1.setOnAction(e -> {
+			view.root.setId(null);
+			// view.root.setBackground(new Background(new BackgroundFill(Color.GREEN, null, null)));
+			view.root.setStyle(" -fx-background-color: green");
+		});
+
+		view.background2.setOnAction(e -> {
+			view.root.setId(null);
+			// view.root.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, null, null)));
+			view.root.setStyle(" -fx-background-color: lightblue");
+		});
+
+		view.background3.setOnAction(e -> {
+			view.root.setId(null);
+			// view.root.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
+			view.root.setStyle(" -fx-background-color: white");
+		});
+
+		view.englishLanguage.setOnAction(e -> {
+			changeLanguageENG();
+		});
+
+
+
+
+		view.germanLanguage.setOnAction(e -> {
+			changeLanguageDE();
+		});
+	}
+
+
+	public void changeLanguageENG() {
+		view.gameRules.setText("Rules");
+		view.gameLanguage.setText("Language");
+		view.gameBackgrounds.setText("Backgrounds");
+		view.restartGame.setText("Restart");
+		view.exitGame.setText("Exit");
+		view.germanLanguage.setText("German");
+		view.englishLanguage.setText("English");
+		view.connect4Rules.setText("Rules");
+		view.connect4Help.setText("Help");
+		view.background1.setText("green");
+		view.background2.setText("light-blue");
+		view.background3.setText("white");
+	}
+
+	private void changeLanguageDE() {
+		view.gameRules.setText("Regeln");
+		view.gameLanguage.setText("Sprache");
+		view.gameBackgrounds.setText("Hintergrund");
+		view.restartGame.setText("Neustart");
+		view.exitGame.setText("Beenden");
+		view.germanLanguage.setText("Deutsch");
+		view.englishLanguage.setText("Englisch");
+		view.connect4Rules.setText("Regeln");
+		view.connect4Help.setText("Hilfe");
+		view.background1.setText("grün");
+		view.background2.setText("hellblau");
+		view.background3.setText("weiss");
 	}
 }

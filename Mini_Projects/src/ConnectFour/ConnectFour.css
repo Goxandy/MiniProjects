@@ -3,6 +3,8 @@
   -fx-effect: innershadow( gaussian, rgba( 0, 0, 0, 0.5 ), 10, 0, 5, 5 );
 }
 
+
+
 .label {
  -fx-font-weight: bolder;
  -fx-font-size: 24px;

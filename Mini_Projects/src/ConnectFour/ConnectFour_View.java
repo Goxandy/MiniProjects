@@ -10,9 +10,7 @@ import javafx.animation.TranslateTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
@@ -24,7 +22,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import javafx.scene.control.Label;
+
 /**
  * 
  * @author ConnectFour:
@@ -61,12 +59,14 @@ public class ConnectFour_View {
 	private static final int TILE_SIZE = 80;
 	Shape shape;
 	private List<Rectangle> overlay;
+	protected VBox root;
 
 	// Elements to display the game flow (inGameScene)
 	protected Disc disc;
 	protected Pane discPane;
 	protected ArrayList<Disc> discsToRemove = new ArrayList<>();
 	TranslateTransition animation = new TranslateTransition();
+
 
 	// Elements to control the GameOver scene
 	protected Scene gameOverScene;
@@ -80,6 +80,27 @@ public class ConnectFour_View {
 	protected ChoiceBox boardSize = new ChoiceBox();
 	protected Label lblMode = new Label("Choose the mode:");
 	protected ChoiceBox mode = new ChoiceBox();
+
+	// Elements to display for the MenuBar, Menu and MenuItems
+	protected MenuBar menuBar;
+
+	protected Menu gameMenu;
+	protected Menu gameLanguage;
+	protected Menu gameRules;
+	protected Menu gameBackgrounds;
+
+	protected MenuItem restartGame;
+	protected MenuItem exitGame;
+
+	protected MenuItem germanLanguage;
+	protected MenuItem englishLanguage;
+
+	protected MenuItem connect4Rules;
+	protected MenuItem connect4Help;
+
+	protected MenuItem background1;
+	protected MenuItem background2;
+	protected MenuItem background3;
 
 	public ConnectFour_View (Stage stage, ConnectFour_Model model) {
 		this.stage = stage;
@@ -120,19 +141,11 @@ public class ConnectFour_View {
 	private Scene createStartScene() {
 		GridPane root = new GridPane();
 		root.setPadding(new Insets(60));
-		root.setVgap(100);
+		root.setVgap(50);
 		root.setAlignment(Pos.CENTER);
-
-		/** startBtn.setTranslateX(470);
-		 startBtn.setTranslateY(500);
-
-		 lblBoardSize.setTranslateX(50);
-		 lblBoardSize.setTranslateY(200);
-		 */
-
-		/* boardSize.setTranslateX(500);
-		boardSize.setTranslateY(200);
-		*/
+		Label lblTitle = new Label("Connect Four by Levin & Andreas");
+		lblTitle.getStyleClass().add("title");
+		lblTitle.setAlignment(Pos.CENTER);
 
 
 		boardSize.getItems().add("7x6");
@@ -144,41 +157,68 @@ public class ConnectFour_View {
 		boardSize.getItems().add("8x8");
 		boardSize.setTooltip(new Tooltip("Standard Mode is 7x6 (column x row)"));
 
-		/*
-		lblMode.setTranslateX(50);
-		lblMode.setTranslateY(350);
-		lblMode.setMinWidth(450);
-		*/
 
-		/*
-		mode.setTranslateX(500);
-		mode.setTranslateY(350);
-		 */
 		mode.getItems().add("ConnectFour");
 		mode.getItems().add("ConnectFive");
 		mode.setTooltip(new Tooltip("Standard mode is ConnectFour"));
 
+		root.add(lblTitle, 0, 0, 3, 1);
+		root.add(lblBoardSize, 0, 1);
+		root.add(lblMode, 0, 2);
+		root.add(boardSize, 1, 1);
+		root.add(mode, 1, 2);
+		root.add(startBtn, 1, 3);
 
-		root.add(lblBoardSize, 0, 0);
-		root.add(lblMode, 0, 1);
-		root.add(boardSize, 1, 0);
-		root.add(mode, 1, 1);
-		root.add(startBtn, 1, 2);
 
-		Scene scene = new Scene(root, 800, 650);
+		Scene scene = new Scene(root);
 		scene.getStylesheets().add(getClass().getResource("settings.css").toExternalForm());
 		return scene;
 	}
 
 	private Scene createGameScene(){
-		Pane root = new Pane();
+		root = new VBox();
+		Pane gameRoot = new Pane();
 		discPane = new Pane();
-		root.getChildren().addAll(discPane);
+		gameRoot.getChildren().add(discPane);
 		shape = makeGrid();
-		root.getChildren().add(shape);
-		root.getChildren().addAll(makeOverlay());
+
+
+		// creating MenuBar, Menu and MenuItems
+
+		menuBar = new MenuBar();
+
+		gameMenu = new Menu("Connect4");
+		gameRules = new Menu("Rules");
+		gameLanguage = new Menu("Language");
+		gameBackgrounds = new Menu("Backgrounds");
+
+		restartGame = new MenuItem("Restart");
+		exitGame = new MenuItem("Exit");
+
+		germanLanguage = new MenuItem("German");
+		englishLanguage = new MenuItem("English");
+
+		connect4Rules = new MenuItem("Rules");
+		connect4Help = new MenuItem("Help");
+
+		background1 = new MenuItem("green");
+		background2 = new MenuItem("light-blue");
+		background3 = new MenuItem("white");
+
+		menuBar.getMenus().addAll(gameMenu, gameRules, gameBackgrounds, gameLanguage);
+
+		gameMenu.getItems().addAll(restartGame, exitGame);
+		gameLanguage.getItems().addAll(germanLanguage, englishLanguage);
+		gameRules.getItems().addAll(connect4Rules, connect4Help);
+		gameBackgrounds.getItems().addAll(background1, background2, background3);
+
+
+
+		gameRoot.getChildren().add(shape);
+		gameRoot.getChildren().addAll(makeOverlay());
+		root.getChildren().addAll(menuBar, gameRoot);
 		Scene scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("ConnectFour.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("settings.css").toExternalForm());
 		return scene;
 	}
 	
@@ -225,28 +265,6 @@ public class ConnectFour_View {
 			}
 		return overlay;
 	}
-	
-
-	
-	public void placeDisc() {
-		int row = model.currentRow;
-		int column = model.currentCol;
-		
-			if (model.discBoard[column][row] == Moves.Red) {
-				this.disc = new Disc(true);
-			} else {
-				disc = new Disc(false);
-			}
-		discPane.getChildren().add(disc);
-		disc.setTranslateX(column * (TILE_SIZE + 5) + TILE_SIZE / 4);
-		discsToRemove.add(disc);
-
-
-		animation.setDuration(Duration.seconds(0.3));
-		animation.setNode(disc);
-		animation.setToY(row * (TILE_SIZE + 5) + TILE_SIZE / 4);
-		animation.play();
-	}
 
 	// create what happens when game is over
 	public Scene createGameOverScene(){
@@ -286,6 +304,29 @@ public class ConnectFour_View {
 		scene.getStylesheets().add(getClass().getResource("ConnectFour.css").toExternalForm());
 		return scene;
 	}
+	
+
+	public void placeDisc() {
+		int row = model.currentRow;
+		int column = model.currentCol;
+		
+			if (model.discBoard[column][row] == Moves.Red) {
+				this.disc = new Disc(true);
+			} else {
+				disc = new Disc(false);
+			}
+		discPane.getChildren().add(disc);
+		disc.setTranslateX(column * (TILE_SIZE + 5) + TILE_SIZE / 4);
+		discsToRemove.add(disc);
+
+
+		animation.setDuration(Duration.seconds(0.3));
+		animation.setNode(disc);
+		animation.setToY(row * (TILE_SIZE + 5) + TILE_SIZE / 4);
+		animation.play();
+	}
+
+
 
 	public void prepareBoard(){
 		model.makeMove(8);

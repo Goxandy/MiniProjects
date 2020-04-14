@@ -145,7 +145,8 @@ public class ConnectFour_View {
 		root.setAlignment(Pos.CENTER);
 		Label lblTitle = new Label("Connect Four by Levin & Andreas");
 		lblTitle.getStyleClass().add("title");
-		lblTitle.setAlignment(Pos.CENTER);
+		lblTitle.setMinWidth(700);
+		
 
 
 		boardSize.getItems().add("7x6");
@@ -157,12 +158,15 @@ public class ConnectFour_View {
 		boardSize.getItems().add("8x8");
 		boardSize.setTooltip(new Tooltip("Standard Mode is 7x6 (column x row)"));
 
-
+			
+		lblMode.setMinWidth(461);
+		
 		mode.getItems().add("ConnectFour");
 		mode.getItems().add("ConnectFive");
 		mode.setTooltip(new Tooltip("Standard mode is ConnectFour"));
+		
 
-		root.add(lblTitle, 0, 0, 3, 1);
+		root.add(lblTitle, 0, 0, 2, 1);
 		root.add(lblBoardSize, 0, 1);
 		root.add(lblMode, 0, 2);
 		root.add(boardSize, 1, 1);

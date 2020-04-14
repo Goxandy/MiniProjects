@@ -146,7 +146,7 @@ public class ConnectFour_Model {
 				// do nothing when exception
 			}
 		}
-
+		
 		if (mode.equals("ConnectFive")) {
 			try {
 				if (discBoard[currentCol][currentRow] == discBoard[currentCol + 1][currentRow + 1] &&
@@ -189,6 +189,17 @@ public class ConnectFour_Model {
 		}
 		return diagWinnerUp;
 	}
+	
+	// checks if the playing board is full - needed to see if draw
+	public boolean fullPlayingBoard(){
+		boolean full = false;
+		int counter = 0;
+		for (int i = 0; i < COLUMNS; i++){
+			if (discBoard[i][0] != null) counter++;
+		}
+		if (counter == COLUMNS) full = true;
+		return full;
+	}	
 
 	// method for showing rules for Connect4 in English
 	public void showRule() {

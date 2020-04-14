@@ -278,6 +278,8 @@ public class ConnectFour_View {
 
 
 		Label gameOverText = new Label("What a Game!! Player " + model.getWinner() + " is the winner");
+		if (model.fullPlayingBoard() == true ) gameOverText.setText("What a Game! It's a draw");
+		gameOverText.setMinWidth(500);
 		gameOverText.setTranslateX(150);
 		gameOverText.setTranslateY(80);
 

@@ -64,7 +64,7 @@ public class ConnectFour_Controller {
 
 		view.animation.setOnFinished(e -> {
 			final Object lock = new Object();
-			if (model.getWinner() != null) {
+			if (model.getWinner() != null || model.fullPlayingBoard() == true) {
 				try {
 					// make the Game Over scene wait to show up to avoid rushing to the endScene
 					synchronized (lock) {

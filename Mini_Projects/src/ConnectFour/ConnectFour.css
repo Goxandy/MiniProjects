@@ -6,6 +6,7 @@
 
 
 .label {
+ -fx-alignment: center;
  -fx-font-weight: bolder;
  -fx-font-size: 24px;
  -fx-padding: 15px 25px;

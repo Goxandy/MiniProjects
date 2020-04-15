@@ -35,11 +35,19 @@ public class ConnectFour_Controller {
 		view.playAgain.setOnAction(e -> {
 			view.discPane.getChildren().removeAll(view.discsToRemove);
 			model.resetDiscBoard();
-			view.changeScene(view.inGameScene);
+			view.resetStartScene();
+			view.updateScene();
+			view.changeScene(view.startScene);
 		});
 
 		view.exit.setOnAction(e -> {
 			view.stop();
+		});
+		
+		view.btnResult.setOnAction( e -> {
+			view.changeScene(view.inGameScene);
+			disableDiscPlacement();
+			
 		});
 
 	}
@@ -157,6 +165,8 @@ public class ConnectFour_Controller {
 		view.background1.setText("green");
 		view.background2.setText("light-blue");
 		view.background3.setText("white");
+		view.playAgain.setText("Play again");
+		view.exit.setText("Exit");
 	}
 
 	private void changeLanguageDE() {
@@ -172,5 +182,19 @@ public class ConnectFour_Controller {
 		view.background1.setText("grün");
 		view.background2.setText("hellblau");
 		view.background3.setText("weiss");
+		view.playAgain.setText("Neues Spiel");
+		view.exit.setText("Beenden");
+		if (model.fullPlayingBoard() == true ) view.gameOverText.setText("Wow! Das Spiel endet unentschieden");
+		if (model.getWinner() != null) view.gameOverText.setText("Wow! Spieler "+model.getWinner().toString()+" ist der Gewinner");
+	}
+	
+	private void disableDiscPlacement() {
+		for (int i = 0; i < model.COLUMNS; i++) {
+			int column = i;
+
+			view.getOverlay().get(column).setOnMouseClicked(e -> {
+				// do nothing
+			});
+		}
 	}
 }

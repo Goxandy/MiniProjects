@@ -72,6 +72,8 @@ public class ConnectFour_View {
 	protected Scene gameOverScene;
 	protected Button exit = new Button("Exit");
 	protected Button playAgain = new Button("Play Again");
+	protected Label gameOverText = new Label();
+	protected Button btnResult = new Button("See result");
 
 	// Elements to control start scene
 	protected Button startBtn = new Button("Start Game");
@@ -101,6 +103,8 @@ public class ConnectFour_View {
 	protected MenuItem background1;
 	protected MenuItem background2;
 	protected MenuItem background3;
+	
+	
 
 	public ConnectFour_View (Stage stage, ConnectFour_Model model) {
 		this.stage = stage;
@@ -148,7 +152,7 @@ public class ConnectFour_View {
 		lblTitle.setMinWidth(700);
 		
 
-
+		boardSize.getItems().removeAll(boardSize.getItems());
 		boardSize.getItems().add("7x6");
 		boardSize.getItems().add("5x4");
 		boardSize.getItems().add("6x5");
@@ -156,14 +160,16 @@ public class ConnectFour_View {
 		boardSize.getItems().add("9x7");
 		boardSize.getItems().add("10x7");
 		boardSize.getItems().add("8x8");
-		boardSize.setTooltip(new Tooltip("Standard Mode is 7x6 (column x row)"));
+		boardSize.setTooltip(new Tooltip("Default Mode is 7x6 (column x row)"));
+		
 
 			
 		lblMode.setMinWidth(461);
 		
+		mode.getItems().removeAll(boardSize.getItems());
 		mode.getItems().add("ConnectFour");
 		mode.getItems().add("ConnectFive");
-		mode.setTooltip(new Tooltip("Standard mode is ConnectFour"));
+		mode.setTooltip(new Tooltip("Default mode is ConnectFour"));
 		
 
 		root.add(lblTitle, 0, 0, 2, 1);
@@ -177,6 +183,10 @@ public class ConnectFour_View {
 		Scene scene = new Scene(root);
 		scene.getStylesheets().add(getClass().getResource("settings.css").toExternalForm());
 		return scene;
+	}
+	
+	public void resetStartScene() {
+		startScene = null;
 	}
 
 	private Scene createGameScene(){
@@ -274,10 +284,10 @@ public class ConnectFour_View {
 	public Scene createGameOverScene(){
 
 		Pane rootGameOver = new Pane();
-		Scene scene  = new Scene(rootGameOver, 800, 650);
+		Scene scene  = new Scene(rootGameOver, 800, 700);
 
 
-		Label gameOverText = new Label("What a Game!! Player " + model.getWinner() + " is the winner");
+		gameOverText.setText("What a Game!! Player " + model.getWinner() + " is the winner");
 		if (model.fullPlayingBoard() == true ) gameOverText.setText("What a Game! It's a draw");
 		gameOverText.setMinWidth(500);
 		gameOverText.setTranslateX(150);
@@ -285,6 +295,10 @@ public class ConnectFour_View {
 
 		playAgain.setTranslateX(150);
 		playAgain.setTranslateY(500);
+		
+		btnResult.setTranslateX(150);
+		btnResult.setTranslateY(600);
+		btnResult.setMinWidth(playAgain.prefWidthProperty().getValue());
 
 		exit.setTranslateX(470);
 		exit.setTranslateY(500);
@@ -299,6 +313,7 @@ public class ConnectFour_View {
 		rootGameOver.getChildren().add(exit);
 		rootGameOver.getChildren().add(gameOverText);
 		rootGameOver.getChildren().add(playAgain);
+		rootGameOver.getChildren().add(btnResult);
 		rootGameOver.getChildren().add(iv);
 
 		try {

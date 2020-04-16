@@ -82,7 +82,8 @@ public class ConnectFour_View {
 	protected Menu gameRules;
 	protected Menu gameBackgrounds;
 
-	protected MenuItem restartGame;
+	protected MenuItem newGame;
+	protected MenuItem resetGame;
 	protected MenuItem exitGame;
 
 	protected MenuItem germanLanguage;
@@ -199,7 +200,8 @@ public class ConnectFour_View {
 		gameLanguage = new Menu("Language");
 		gameBackgrounds = new Menu("Backgrounds");
 
-		restartGame = new MenuItem("Restart");
+		newGame = new MenuItem("New Game");
+		resetGame = new MenuItem("Reset");
 		exitGame = new MenuItem("Exit");
 
 		germanLanguage = new MenuItem("German");
@@ -214,7 +216,7 @@ public class ConnectFour_View {
 
 		menuBar.getMenus().addAll(gameMenu, gameRules, gameBackgrounds, gameLanguage);
 
-		gameMenu.getItems().addAll(restartGame, exitGame);
+		gameMenu.getItems().addAll(newGame,resetGame, exitGame);
 		gameLanguage.getItems().addAll(germanLanguage, englishLanguage);
 		gameRules.getItems().addAll(connect4Rules, connect4Help);
 		gameBackgrounds.getItems().addAll(background1, background2, background3);

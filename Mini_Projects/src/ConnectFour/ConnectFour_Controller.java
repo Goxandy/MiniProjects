@@ -98,11 +98,19 @@ public class ConnectFour_Controller {
 		});
 
 		// restart game when playing
-		view.restartGame.setOnAction(e -> {
+		view.resetGame.setOnAction(e -> {
 			view.discPane.getChildren().removeAll(view.discsToRemove);
 			model.resetDiscBoard();
 			view.changeScene(view.inGameScene);
 			handleGameAction();
+		});
+
+		view.newGame.setOnAction(e -> {
+			view.discPane.getChildren().removeAll(view.discsToRemove);
+			model.resetDiscBoard();
+			view.resetStartScene();
+			view.updateScene();
+			view.changeScene(view.startScene);
 		});
 
 		// switching background colors
@@ -151,7 +159,8 @@ public class ConnectFour_Controller {
 		view.gameRules.setText("Rules");
 		view.gameLanguage.setText("Language");
 		view.gameBackgrounds.setText("Backgrounds");
-		view.restartGame.setText("Restart");
+		view.newGame.setText("New Game");
+		view.resetGame.setText("Restart");
 		view.exitGame.setText("Exit");
 		view.germanLanguage.setText("German");
 		view.englishLanguage.setText("English");
@@ -169,7 +178,8 @@ public class ConnectFour_Controller {
 		view.gameRules.setText("Regeln");
 		view.gameLanguage.setText("Sprache");
 		view.gameBackgrounds.setText("Hintergrund");
-		view.restartGame.setText("Neustart");
+		view.newGame.setText("Neues Spiel");
+		view.resetGame.setText("Neustart");
 		view.exitGame.setText("Beenden");
 		view.germanLanguage.setText("Deutsch");
 		view.englishLanguage.setText("Englisch");

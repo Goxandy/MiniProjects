@@ -100,6 +100,8 @@ public class ConnectFour_Controller {
 			view.changeScene(view.inGameScene);
 			handleGameAction();
 		});
+		
+		//Test to commit
 
 
 		// TODO (not working efficient !!!!!!!)

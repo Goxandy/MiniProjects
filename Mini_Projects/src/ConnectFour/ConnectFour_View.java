@@ -2,10 +2,7 @@ package ConnectFour;
 
 import java.util.ArrayList;
 import java.util.List;
-
-
 import ConnectFour.ConnectFour_Model.Moves;
-
 import javafx.animation.TranslateTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -25,27 +22,20 @@ import javafx.util.Duration;
 
 /**
  * 
- * @author ConnectFour:
-
+ * @author ConnectFour
 
 TODO:
 
+-----------------------------------------------------------------------------------------------------------------------
 PreFame-Fenster(Andy):
 Spielername eingeben; Grösse vom Spielboard auswählen; Zusatzmodus (5er System);
-Tetris-Version
+-----------------------------------------------------------------------------------------------------------------------
 
-
-
-
-InGame-fenster(Levin):
-
+InGame-Fenster(Levin):
 -MenuBar (Sprache wechseln; Hintergrundfarbe wechseln; Spielregeln anzeigen)
-
-
 EndGame-Fenster(Levin):
-
--Zeitaufwand anzeigen (Score)
-
+-Zeitaufwand anzeigen (Time)
+-----------------------------------------------------------------------------------------------------------------------
  *
  */
 
@@ -74,6 +64,7 @@ public class ConnectFour_View {
 	protected Button playAgain = new Button("Play Again");
 	protected Label gameOverText = new Label();
 	protected Button btnResult = new Button("See result");
+	protected Label lblGameTime = new Label();
 
 	// Elements to control start scene
 	protected Button startBtn = new Button("Start Game");
@@ -104,7 +95,8 @@ public class ConnectFour_View {
 	protected MenuItem background2;
 	protected MenuItem background3;
 	
-	
+
+
 
 	public ConnectFour_View (Stage stage, ConnectFour_Model model) {
 		this.stage = stage;
@@ -305,6 +297,10 @@ public class ConnectFour_View {
 		exit.setTranslateY(500);
 		exit.setMinWidth(175);
 
+
+		lblGameTime.setTranslateX(470);
+		lblGameTime.setTranslateY(600);
+
 		ImageView iv = new ImageView();
 		iv.setPreserveRatio(true);
 		iv.setFitWidth(400);
@@ -315,6 +311,8 @@ public class ConnectFour_View {
 		rootGameOver.getChildren().add(gameOverText);
 		rootGameOver.getChildren().add(playAgain);
 		rootGameOver.getChildren().add(btnResult);
+		rootGameOver.getChildren().add(lblGameTime);
+
 		rootGameOver.getChildren().add(iv);
 
 		try {

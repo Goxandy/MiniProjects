@@ -3,6 +3,8 @@ package ConnectFour;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
+import java.time.*;
+
 public class ConnectFour_Model {
 	protected static int COLUMNS = 7;
 	protected static int ROWS = 6;
@@ -14,6 +16,11 @@ public class ConnectFour_Model {
 	protected Moves[][] discBoard = new Moves[COLUMNS][ROWS];
 	protected int currentRow;
 	protected int currentCol;
+
+	// Elements to measure time
+	protected Instant iStart;
+	protected Instant iEnd;
+	protected double gameTime;
 
 	String mode;
 
@@ -278,6 +285,19 @@ public class ConnectFour_Model {
 		rules.showAndWait();
 
 	}
-	
 
+	public void countGameTime(){
+		 iStart = Instant.now();
+	}
+
+	public void readGameTime(){
+		iEnd = Instant.now();
+		Duration gameDuration = Duration.between(iStart, iEnd);
+		gameTime = gameDuration.getSeconds() + gameDuration.getNano() / 1e9;
+
+	}
+
+	public double getGameTime(){
+		return gameTime;
+	}
 }

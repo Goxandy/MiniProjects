@@ -1,11 +1,12 @@
 package ConnectFour;
 
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
+
+import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class ConnectFour_Controller {
+
 	private final ConnectFour_Model model;
 	private final ConnectFour_View view;
 
@@ -14,6 +15,7 @@ public class ConnectFour_Controller {
 		this.view = view;
 
 		view.startBtn.setOnAction(e -> {
+			model.countGameTime();
 			String mode = (String) view.mode.getValue();
 			if (view.mode.getValue() == null) {
 				model.setMode("ConnectFour");
@@ -86,6 +88,8 @@ public class ConnectFour_Controller {
 				}
 				view.changeScene(view.createGameOverScene());
 			}
+			model.readGameTime();
+			view.lblGameTime = new Label("Game Duration: "+(model.getGameTime())+" seconds.");
 		});
 
 		// exit game when playing
@@ -100,31 +104,6 @@ public class ConnectFour_Controller {
 			view.changeScene(view.inGameScene);
 			handleGameAction();
 		});
-		
-		//Test to commit
-
-
-		// TODO (not working efficient !!!!!!!)
-
-		// show the "rules-window" given by the chosen language
-		if (view.germanLanguage.getText() == "Deutsch") {
-			view.connect4Rules.setOnAction(e -> model.showRegeln());
-		}
-
-		if (view.germanLanguage.getText() == "German") {
-			view.connect4Rules.setOnAction(e -> model.showRule());
-		}
-
-
-		// show the "help-window" given by the chosen language
-		if (view.germanLanguage.getText() == "Deutsch") {
-			view.connect4Help.setOnAction(e -> model.showHilfe());
-		}
-
-		if (view.germanLanguage.getText() == "German") {
-			view.connect4Help.setOnAction(e -> model.showHelp());
-
-		}
 
 		// switching background colors
 		view.background1.setOnAction(e -> {
@@ -146,14 +125,24 @@ public class ConnectFour_Controller {
 		});
 
 		view.englishLanguage.setOnAction(e -> {
+			updateLanguageSetting();
 			changeLanguageENG();
+
+		});
+
+		view.germanLanguage.setOnAction(e -> {
+			updateLanguageSetting();
+			changeLanguageDE();
+
 		});
 
 
+		view.connect4Rules.setOnAction(e -> {
+			model.showRule();
+		});
 
-
-		view.germanLanguage.setOnAction(e -> {
-			changeLanguageDE();
+		view.connect4Help.setOnAction(e -> {
+			model.showHelp();
 		});
 	}
 
@@ -173,6 +162,7 @@ public class ConnectFour_Controller {
 		view.background3.setText("white");
 		view.playAgain.setText("Play again");
 		view.exit.setText("Exit");
+		updateLanguageSetting();
 	}
 
 	private void changeLanguageDE() {
@@ -192,6 +182,7 @@ public class ConnectFour_Controller {
 		view.exit.setText("Beenden");
 		if (model.fullPlayingBoard() == true ) view.gameOverText.setText("Wow! Das Spiel endet unentschieden");
 		if (model.getWinner() != null) view.gameOverText.setText("Wow! Spieler "+model.getWinner().toString()+" ist der Gewinner");
+		updateLanguageSetting();
 	}
 	
 	private void disableDiscPlacement() {
@@ -201,6 +192,30 @@ public class ConnectFour_Controller {
 			view.getOverlay().get(column).setOnMouseClicked(e -> {
 				// do nothing
 			});
+		}
+	}
+
+	// method to update languageSetting according to current language
+
+	public void updateLanguageSetting(){
+
+		// show the "rule-window" given by the chosen language
+		if (view.germanLanguage.getText() == "Deutsch") {
+			view.connect4Rules.setOnAction(e -> model.showRegeln());
+		}
+
+		if (view.germanLanguage.getText() == "German") {
+			view.connect4Rules.setOnAction(e -> model.showRule());
+		}
+
+		// show the "help-window" given by the chosen language
+		if (view.germanLanguage.getText() == "Deutsch") {
+			view.connect4Help.setOnAction(e -> model.showHilfe());
+		}
+
+		if (view.germanLanguage.getText() == "German") {
+			view.connect4Help.setOnAction(e -> model.showHelp());
+
 		}
 	}
 }

@@ -71,6 +71,9 @@ public class ConnectFour_Controller {
 		}
 
 		view.animation.setOnFinished(e -> {
+			/*if (model.mode.equals("Linetris") && model.checkLastRowFull() == true) {
+				view.updateDiscBoard();
+			}*/
 			final Object lock = new Object();
 			if (model.getWinner() != null || model.fullPlayingBoard() == true) {
 				try {
@@ -95,6 +98,7 @@ public class ConnectFour_Controller {
 			view.discPane.getChildren().removeAll(view.discsToRemove);
 			model.resetDiscBoard();
 			view.changeScene(view.inGameScene);
+			handleGameAction();
 		});
 
 

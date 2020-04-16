@@ -62,7 +62,8 @@ public class ConnectFour_Model {
 		discBoard[currentCol][currentRow] = nextMove;
 		nextMove = (nextMove == Moves.Red  ? Moves.Yellow : Moves.Red);
 		mode = getMode();
-
+		
+		// if (mode.equals("Linetris") && checkLastRowFull() == true) removeLastRow();
 		checkWinner(mode);
 	}
 
@@ -72,9 +73,44 @@ public class ConnectFour_Model {
 		nextMove = Moves.Red;
 		return discBoard;
 	}
+	
+	// checks if the playing board is full - needed to see if draw
+		public boolean fullPlayingBoard(){
+			boolean full = false;
+			int counter = 0;
+			for (int i = 0; i < COLUMNS; i++){
+				if (discBoard[i][0] != null) counter++;
+			}
+			if (counter == COLUMNS) full = true;
+			return full;
+		}	
+	
+		/* 
+	public boolean checkLastRowFull() {
+		boolean full = false;
+		int counter = 0;
+		for (int i = 0; i < COLUMNS; i++) {
+			if (discBoard[i][ROWS-1] != null) counter++;
+		}
+		if (counter == COLUMNS) full = true;
+		return full;
+	}
+	
+	public void removeLastRow() {
+		for (int x = COLUMNS-1; x >= 0; x--) {
+			for (int y = ROWS-1; y >= 0; y--) {
+				Moves m = discBoard[x][y];
+				try {
+					discBoard[x][y+1] = m;
+				} catch (Exception e) {
+					discBoard[x][y] = null;
+				}
+			}
+		}
+	}
+*/
 
-
-	public void checkWinner(String mode) {
+	private void checkWinner(String mode) {
 		if (checkVertWinner(mode) != null) winner = checkVertWinner(mode);
 		if (checkHorWinner(mode) != null) winner = checkHorWinner(mode);
 		if (checkDiagWinnerDown(mode) != null) winner = checkDiagWinnerDown(mode);
@@ -190,16 +226,6 @@ public class ConnectFour_Model {
 		return diagWinnerUp;
 	}
 	
-	// checks if the playing board is full - needed to see if draw
-	public boolean fullPlayingBoard(){
-		boolean full = false;
-		int counter = 0;
-		for (int i = 0; i < COLUMNS; i++){
-			if (discBoard[i][0] != null) counter++;
-		}
-		if (counter == COLUMNS) full = true;
-		return full;
-	}	
 
 	// method for showing rules for Connect4 in English
 	public void showRule() {

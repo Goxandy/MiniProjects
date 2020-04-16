@@ -169,6 +169,7 @@ public class ConnectFour_View {
 		mode.getItems().removeAll(boardSize.getItems());
 		mode.getItems().add("ConnectFour");
 		mode.getItems().add("ConnectFive");
+		// mode.getItems().add("Linetris");
 		mode.setTooltip(new Tooltip("Default mode is ConnectFour"));
 		
 
@@ -346,7 +347,25 @@ public class ConnectFour_View {
 		animation.setToY(row * (TILE_SIZE + 5) + TILE_SIZE / 4);
 		animation.play();
 	}
-
+	
+	/*
+	public void updateDiscBoard() {
+		discPane.getChildren().removeAll(discsToRemove);
+		for (int x = 0; x < model.COLUMNS; x++) {
+			for (int y = 0; y < model.ROWS; y++) {
+				if(model.discBoard[x][y] == Moves.Red) {
+					disc = new Disc(true);
+				} else {
+					disc = new Disc(false);
+				}
+				discPane.getChildren().add(disc);
+				disc.setTranslateX(x * (TILE_SIZE + 5) + TILE_SIZE / 4);
+				disc.setTranslateY(y * (TILE_SIZE + 5) + TILE_SIZE / 4);
+				discsToRemove.add(disc);
+			}
+		}
+	}
+*/
 
 
 	public void prepareBoard(){

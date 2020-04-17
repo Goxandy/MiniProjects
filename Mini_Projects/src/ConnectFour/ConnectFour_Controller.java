@@ -171,6 +171,7 @@ public class ConnectFour_Controller {
 		view.background3.setText("white");
 		view.playAgain.setText("Play again");
 		view.exit.setText("Exit");
+		view.btnResult.setText("See Result");
 		updateLanguageSetting();
 	}
 
@@ -190,6 +191,7 @@ public class ConnectFour_Controller {
 		view.background3.setText("weiss");
 		view.playAgain.setText("Neues Spiel");
 		view.exit.setText("Beenden");
+		view.btnResult.setText("Resultat");
 		if (model.fullPlayingBoard() == true ) view.gameOverText.setText("Wow! Das Spiel endet unentschieden");
 		if (model.getWinner() != null) view.gameOverText.setText("Wow! Spieler "+model.getWinner().toString()+" ist der Gewinner");
 		updateLanguageSetting();

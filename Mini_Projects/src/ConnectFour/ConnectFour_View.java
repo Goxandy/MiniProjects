@@ -63,13 +63,13 @@ public class ConnectFour_View {
 	protected Button exit = new Button("Exit");
 	protected Button playAgain = new Button("Play Again");
 	protected Label gameOverText = new Label();
-	protected Button btnResult = new Button("See result");
+	protected Button btnResult = new Button("See Result");
 	protected Label lblGameTime = new Label();
 
 	// Elements to control start scene
 	protected Button startBtn = new Button("Start Game");
 	protected Scene startScene;
-	protected Label lblBoardSize = new Label("Choose the size of the playing board");
+	protected Label lblBoardSize = new Label("Choose the size of the playing board:");
 	protected ChoiceBox boardSize = new ChoiceBox();
 	protected Label lblMode = new Label("Choose the mode:");
 	protected ChoiceBox mode = new ChoiceBox();
@@ -96,9 +96,8 @@ public class ConnectFour_View {
 	protected MenuItem background2;
 	protected MenuItem background3;
 	
-
-
-
+	protected ImageView logo = new ImageView();
+	
 	public ConnectFour_View (Stage stage, ConnectFour_Model model) {
 		this.stage = stage;
 		this.model = model;
@@ -106,7 +105,7 @@ public class ConnectFour_View {
 		inGameScene = createGameScene();
 		startScene = createStartScene();
 		stage.setScene(startScene);
-		stage.setTitle("Connect Four");
+		stage.setTitle("Connect Four by Levin & Andreas");
 	}
 	
 	public void start() {
@@ -139,10 +138,14 @@ public class ConnectFour_View {
 		GridPane root = new GridPane();
 		root.setPadding(new Insets(60));
 		root.setVgap(50);
+		root.setHgap(10);
 		root.setAlignment(Pos.CENTER);
-		Label lblTitle = new Label("Connect Four by Levin & Andreas");
-		lblTitle.getStyleClass().add("title");
-		lblTitle.setMinWidth(700);
+		
+		Image img = new Image("file:connect4Logo.png");
+		logo.setImage(img);
+		logo.setFitWidth(500);
+		logo.setPreserveRatio(true);
+		logo.setTranslateX(50);
 		
 
 		boardSize.getItems().removeAll(boardSize.getItems());
@@ -156,17 +159,23 @@ public class ConnectFour_View {
 		boardSize.setTooltip(new Tooltip("Default Mode is 7x6 (column x row)"));
 		
 
-			
-		lblMode.setMinWidth(461);
+		lblBoardSize.setMinWidth(470);
+		lblMode.setMinWidth(470);
 		
-		mode.getItems().removeAll(boardSize.getItems());
+		lblBoardSize.getStyleClass().clear();
+		lblBoardSize.getStyleClass().add("start");
+		lblMode.getStyleClass().clear();
+		lblMode.getStyleClass().add("start");
+		
+		
+		mode.getItems().removeAll(mode.getItems());
 		mode.getItems().add("ConnectFour");
 		mode.getItems().add("ConnectFive");
 		// mode.getItems().add("Linetris");
 		mode.setTooltip(new Tooltip("Default mode is ConnectFour"));
 		
 
-		root.add(lblTitle, 0, 0, 2, 1);
+		root.add(logo, 0, 0, 2, 1);
 		root.add(lblBoardSize, 0, 1);
 		root.add(lblMode, 0, 2);
 		root.add(boardSize, 1, 1);
@@ -174,8 +183,9 @@ public class ConnectFour_View {
 		root.add(startBtn, 1, 3);
 
 
-		Scene scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("settings.css").toExternalForm());
+		Scene scene = new Scene(root, 835, 600);
+		scene.getStylesheets().add(getClass().getResource("ConnectFour.css").toExternalForm());
+		
 		return scene;
 	}
 	
@@ -227,7 +237,7 @@ public class ConnectFour_View {
 		gameRoot.getChildren().addAll(makeOverlay());
 		root.getChildren().addAll(menuBar, gameRoot);
 		Scene scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("settings.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("ConnectFour.css").toExternalForm());
 		return scene;
 	}
 	
@@ -279,7 +289,7 @@ public class ConnectFour_View {
 	public Scene createGameOverScene(){
 
 		Pane rootGameOver = new Pane();
-		Scene scene  = new Scene(rootGameOver, 800, 700);
+		Scene scene  = new Scene(rootGameOver, 800, 720);
 
 
 		gameOverText.setText("What a Game!! Player " + model.getWinner() + " is the winner");
@@ -290,18 +300,25 @@ public class ConnectFour_View {
 
 		playAgain.setTranslateX(150);
 		playAgain.setTranslateY(500);
+		playAgain.setMaxWidth(140);
+		playAgain.setMinWidth(140);
 		
-		btnResult.setTranslateX(150);
-		btnResult.setTranslateY(600);
-		btnResult.setMinWidth(playAgain.prefWidthProperty().getValue());
+		btnResult.setTranslateX(330);
+		btnResult.setTranslateY(500);
+		btnResult.setMinWidth(140);
 
-		exit.setTranslateX(470);
+		exit.setTranslateX(510);
 		exit.setTranslateY(500);
-		exit.setMinWidth(175);
+		exit.setMinWidth(140);
+		
+		playAgain.getStyleClass().add("button-end");
+		btnResult.getStyleClass().add("button-end");
+		exit.getStyleClass().add("button-end");
 
 
-		lblGameTime.setTranslateX(470);
+		lblGameTime.setTranslateX(150);
 		lblGameTime.setTranslateY(600);
+		lblGameTime.setMinWidth(500);
 
 		ImageView iv = new ImageView();
 		iv.setPreserveRatio(true);

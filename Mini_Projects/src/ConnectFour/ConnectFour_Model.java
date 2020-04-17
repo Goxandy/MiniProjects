@@ -81,7 +81,7 @@ public class ConnectFour_Model {
 		return discBoard;
 	}
 	
-	// checks if the playing board is full - needed to see if draw
+		// checks if the playing board is full - needed to see if draw
 		public boolean fullPlayingBoard(){
 			boolean full = false;
 			int counter = 0;
@@ -90,32 +90,8 @@ public class ConnectFour_Model {
 			}
 			if (counter == COLUMNS) full = true;
 			return full;
-		}	
-	
-		/* 
-	public boolean checkLastRowFull() {
-		boolean full = false;
-		int counter = 0;
-		for (int i = 0; i < COLUMNS; i++) {
-			if (discBoard[i][ROWS-1] != null) counter++;
 		}
-		if (counter == COLUMNS) full = true;
-		return full;
-	}
-	
-	public void removeLastRow() {
-		for (int x = COLUMNS-1; x >= 0; x--) {
-			for (int y = ROWS-1; y >= 0; y--) {
-				Moves m = discBoard[x][y];
-				try {
-					discBoard[x][y+1] = m;
-				} catch (Exception e) {
-					discBoard[x][y] = null;
-				}
-			}
-		}
-	}
-*/
+
 
 	private void checkWinner(String mode) {
 		if (checkVertWinner(mode) != null) winner = checkVertWinner(mode);
@@ -237,11 +213,10 @@ public class ConnectFour_Model {
 	// method for showing rules for Connect4 in English
 	public void showRule() {
 
-		Alert rules = new Alert(Alert.AlertType.NONE, "To win Connect Four you must be the first player"
-				+"\n to get four of your colored checkers in a row either horizontally, vertically"
-				+"\n or diagonally. Contents: Connect Four will come with a grid, 2 end supports,"
-				+"\n 21 red checkers and 21 black checkers, and the official Connect Four game rules"
-				+"\n and instructions.");
+		Alert rules = new Alert(Alert.AlertType.NONE, "To win Connect Four you must be the first player " +
+				"to get four of your colored checkers in a row either horizontally, vertically or diagonally.Contents: " +
+				"Connect Four will come with a grid, 2 end supports,21 red checkers and 21 black checkers, " +
+				"and the official Connect Four game rules.");
 
 		rules.setTitle("connect4-Rules");
 		rules.getDialogPane().getButtonTypes().add(ButtonType.OK);
@@ -252,11 +227,10 @@ public class ConnectFour_Model {
 	public void showRegeln() {
 
 		Alert rules = new Alert(Alert.AlertType.NONE, "Um Connect Four zu gewinnen, müssen Sie der erste"
-				+"\n Spieler sein, der vier Ihrer farbigen Steine in einer Reihe entweder horizontal,"
-				+"\n vertikal oder diagonal erhält. Der Inhalt: Connect Four wird mit einem Gitter,"
-				+"\n 2 Endstützen, 21 roten und 21 schwarzen Steinen und den offiziellen Spielregeln"
-				+"\n und Anweisungen für Connect Four geliefert.\r\n" +
-				"");
+				+" Spieler sein, der vier Ihrer farbigen Steine in einer Reihe entweder horizontal,"
+				+" vertikal oder diagonal erhält. Der Inhalt: Connect Four wird mit einem Gitter,"
+				+" 2 Endstützen, 21 roten und 21 schwarzen Steinen und den offiziellen Spielregeln"
+				+" und Anweisungen für Connect Four geliefert.");
 
 		rules.setTitle("connect4-Regeln");
 		rules.getDialogPane().getButtonTypes().add(ButtonType.OK);
@@ -286,17 +260,19 @@ public class ConnectFour_Model {
 
 	}
 
+	// method for saving current Time
 	public void countGameTime(){
-		 iStart = Instant.now();
+		iStart = Instant.now();
 	}
 
+	// method for reading timegap between iStart and iEnd
 	public void readGameTime(){
 		iEnd = Instant.now();
 		Duration gameDuration = Duration.between(iStart, iEnd);
 		gameTime = gameDuration.getSeconds() + gameDuration.getNano() / 1e9;
-
 	}
 
+	// getter for GameTime
 	public double getGameTime(){
 		return gameTime;
 	}

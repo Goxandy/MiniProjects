@@ -131,9 +131,6 @@ public class ConnectFour_View {
 		return overlay;
 	}
 
-	public Disc getDisc() {
-		return disc;
-	}
 
 	private Scene createStartScene() {
 		GridPane root = new GridPane();
@@ -347,7 +344,7 @@ public class ConnectFour_View {
 		return scene;
 	}
 	
-
+	// method for placing disk with animation
 	public void placeDisc() {
 		int row = model.currentRow;
 		int column = model.currentCol;
@@ -387,7 +384,7 @@ public class ConnectFour_View {
 	}
 */
 
-
+	// prepares the board according to the game setting
 	public void prepareBoard(){
 		model.makeMove(8);
 		placeDiscNoAnimation();
@@ -415,6 +412,7 @@ public class ConnectFour_View {
 		placeDiscNoAnimation();
 	}
 
+	// places the disk without animation
 	private void placeDiscNoAnimation() {
 		int row = model.currentRow;
 		int column = model.currentCol;
@@ -429,6 +427,7 @@ public class ConnectFour_View {
 		disc.setTranslateY(row * (TILE_SIZE + 5) + TILE_SIZE / 4);
 		discsToRemove.add(disc);
 	}
+
 
 	private class Disc extends Circle {
 		private boolean color;

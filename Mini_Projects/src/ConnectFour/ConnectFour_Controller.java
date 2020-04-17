@@ -68,14 +68,13 @@ public class ConnectFour_Controller {
 
 			view.getOverlay().get(column).setOnMouseClicked(e -> {
 				model.makeMove(column);
+				model.readGameTime();
+				view.lblGameTime = new Label("Game Duration: "+(model.getGameTime())+" seconds.");
 				view.placeDisc();
 			});
 		}
 
 		view.animation.setOnFinished(e -> {
-			/*if (model.mode.equals("Linetris") && model.checkLastRowFull() == true) {
-				view.updateDiscBoard();
-			}*/
 			final Object lock = new Object();
 			if (model.getWinner() != null || model.fullPlayingBoard() == true) {
 				try {
@@ -88,8 +87,7 @@ public class ConnectFour_Controller {
 				}
 				view.changeScene(view.createGameOverScene());
 			}
-			model.readGameTime();
-			view.lblGameTime = new Label("Game Duration: "+(model.getGameTime())+" seconds.");
+
 		});
 
 		// exit game when playing

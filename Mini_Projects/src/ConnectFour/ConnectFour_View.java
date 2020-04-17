@@ -95,6 +95,7 @@ public class ConnectFour_View {
 	protected MenuItem background1;
 	protected MenuItem background2;
 	protected MenuItem background3;
+	protected MenuItem background4;
 	
 	protected ImageView logo = new ImageView();
 	
@@ -220,16 +221,18 @@ public class ConnectFour_View {
 		connect4Rules = new MenuItem("Rules");
 		connect4Help = new MenuItem("Help");
 
+
 		background1 = new MenuItem("green");
 		background2 = new MenuItem("light-blue");
 		background3 = new MenuItem("white");
+		background4 = new MenuItem("standard");
 
 		menuBar.getMenus().addAll(gameMenu, gameRules, gameBackgrounds, gameLanguage);
 
 		gameMenu.getItems().addAll(newGame,resetGame, exitGame);
 		gameLanguage.getItems().addAll(germanLanguage, englishLanguage);
 		gameRules.getItems().addAll(connect4Rules, connect4Help);
-		gameBackgrounds.getItems().addAll(background1, background2, background3);
+		gameBackgrounds.getItems().addAll(background1, background2, background3,background4);
 
 
 

@@ -267,7 +267,7 @@ public class ConnectFour_Model {
 	// method for showing help for Connect4 in German
 	public void showHilfe() {
 
-		Alert rules = new Alert(Alert.AlertType.NONE, "Klicke auf die gewünschten Kolonne für den Spielzug!");
+		Alert rules = new Alert(Alert.AlertType.NONE, "Klicke auf die gewünschte Kolonne für den Spielzug!");
 
 		rules.setTitle("connect4-Regeln");
 		rules.getDialogPane().getButtonTypes().add(ButtonType.OK);

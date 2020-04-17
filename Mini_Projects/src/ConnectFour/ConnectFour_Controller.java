@@ -132,6 +132,12 @@ public class ConnectFour_Controller {
 			view.root.setStyle(" -fx-background-color: white");
 		});
 
+		view.background4.setOnAction(e -> {
+			view.root.setId(null);
+			// view.root.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
+			view.root.setStyle(" -fx-background-color: mediumblue");
+		});
+
 		view.englishLanguage.setOnAction(e -> {
 			updateLanguageSetting();
 			changeLanguageENG();
@@ -156,6 +162,7 @@ public class ConnectFour_Controller {
 
 
 	public void changeLanguageENG() {
+		// Game Scene
 		view.gameRules.setText("Rules");
 		view.gameLanguage.setText("Language");
 		view.gameBackgrounds.setText("Backgrounds");
@@ -169,6 +176,9 @@ public class ConnectFour_Controller {
 		view.background1.setText("green");
 		view.background2.setText("light-blue");
 		view.background3.setText("white");
+		view.background4.setText("standard");
+
+		// GameOverScene
 		view.playAgain.setText("Play again");
 		view.exit.setText("Exit");
 		view.btnResult.setText("See Result");
@@ -176,6 +186,7 @@ public class ConnectFour_Controller {
 	}
 
 	private void changeLanguageDE() {
+		// Game Scene
 		view.gameRules.setText("Regeln");
 		view.gameLanguage.setText("Sprache");
 		view.gameBackgrounds.setText("Hintergrund");
@@ -189,6 +200,9 @@ public class ConnectFour_Controller {
 		view.background1.setText("grün");
 		view.background2.setText("hellblau");
 		view.background3.setText("weiss");
+		view.background4.setText("Standart");
+
+		// GameOverScene
 		view.playAgain.setText("Neues Spiel");
 		view.exit.setText("Beenden");
 		view.btnResult.setText("Resultat");
